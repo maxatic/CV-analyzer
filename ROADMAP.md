@@ -72,24 +72,24 @@ This file tracks the full development of the project from zero to deployed. Chec
 ## Phase 2 – Frontend (MVP UI)
 
 ### 2.1 Landing Page `/`
-- [ ] Simple hero section explaining what the app does
-- [ ] CTA button → navigates to `/upload`
+- [x] Simple hero section explaining what the app does
+- [x] CTA button → navigates to `/upload`
 
 ### 2.2 Upload Page `/upload`
-- [ ] Drag-and-drop upload zone (shadcn or custom)
-- [ ] File type and size validation on the client side
-- [ ] Show upload progress / loading state while processing
-- [ ] On success → redirect to `/results/[id]`
-- [ ] On error → display a clear error message
+- [x] Drag-and-drop upload zone (shadcn or custom)
+- [x] File type and size validation on the client side
+- [x] Show upload progress / loading state while processing
+- [x] On success → redirect to `/results/[id]`
+- [x] On error → display a clear error message
 
 ### 2.3 Results Page `/results/[id]`
-- [ ] Fetch result from Supabase by `id`
-- [ ] Display overall score (large, prominent)
-- [ ] Display per-dimension scores with labels and weights
-- [ ] Display `one_line_verdict`
-- [ ] Display `top_strengths` and `top_improvements`
-- [ ] Display per-dimension feedback text
-- [ ] Make the page shareable (the URL is enough)
+- [x] Fetch result from Supabase by `id`
+- [x] Display overall score (large, prominent)
+- [x] Display per-dimension scores with labels and weights
+- [x] Display `one_line_verdict`
+- [x] Display `top_strengths` and `top_improvements`
+- [x] Display per-dimension feedback text
+- [x] Make the page shareable (the URL is enough)
 
 ---
 

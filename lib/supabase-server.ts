@@ -1,6 +1,20 @@
 import { createClient } from '@supabase/supabase-js'
 import { CvResult } from '@/types/cv-result'
 
+export async function getResult(id: string): Promise<CvResult | null> {
+  const supabase = getSupabaseAdmin()
+
+  const { data, error } = await supabase
+    .from('results')
+    .select('result')
+    .eq('id', id)
+    .single()
+
+  if (error || !data) return null
+
+  return data.result as CvResult
+}
+
 function getSupabaseAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
