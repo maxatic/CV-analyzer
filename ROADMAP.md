@@ -9,24 +9,24 @@ This file tracks the full development of the project from zero to deployed. Chec
 - [x] Create GitHub repository (`CV-analyzer`)
 - [x] Create local project folder (`CV analyzer project`)
 - [x] Push initial commit with `build-idea.md`
-- [ ] Scaffold Next.js app with App Router
+- [x] Scaffold Next.js app with App Router
   ```bash
   npx create-next-app@latest . --typescript --tailwind --app --eslint
   ```
-- [ ] Install core dependencies
+- [x] Install core dependencies
   ```bash
   npm install @anthropic-ai/sdk pdf-parse mammoth
   npm install @supabase/supabase-js
   npx shadcn@latest init
   ```
-- [ ] Set up `.env.local` with required keys (never commit this file)
+- [x] Set up `.env.local` with required keys (never commit this file)
   ```
   ANTHROPIC_API_KEY=
   NEXT_PUBLIC_SUPABASE_URL=
   NEXT_PUBLIC_SUPABASE_ANON_KEY=
   SUPABASE_SERVICE_ROLE_KEY=
   ```
-- [ ] Add `.env.local` to `.gitignore`
+- [x] Add `.env.local` to `.gitignore`
 - [ ] Push scaffolded project to GitHub
 
 ---
