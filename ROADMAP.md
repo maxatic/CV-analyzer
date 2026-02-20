@@ -34,20 +34,20 @@ This file tracks the full development of the project from zero to deployed. Chec
 ## Phase 1 – Backend / API Layer (MVP Core)
 
 ### 1.1 File Upload API Route
-- [ ] Create `app/api/upload/route.ts`
-- [ ] Accept `multipart/form-data` with a single file field
-- [ ] Validate file type (PDF or DOCX only) and size (≤ 5MB)
-- [ ] Return clear error responses for invalid uploads
+- [x] Create `app/api/upload/route.ts`
+- [x] Accept `multipart/form-data` with a single file field
+- [x] Validate file type (PDF or DOCX only) and size (≤ 5MB)
+- [x] Return clear error responses for invalid uploads
 
 ### 1.2 Text Extraction
-- [ ] Use `pdf-parse` to extract text from PDF files
-- [ ] Use `mammoth` to extract text from DOCX files
-- [ ] Handle extraction errors gracefully (empty CV, corrupted file, etc.)
+- [x] Use `pdf-parse` to extract text from PDF files
+- [x] Use `mammoth` to extract text from DOCX files
+- [x] Handle extraction errors gracefully (empty CV, corrupted file, etc.)
 
 ### 1.3 Claude API Integration
-- [ ] Build the scoring prompt (structured system prompt → JSON response)
-- [ ] Call Claude API server-side using `@anthropic-ai/sdk`
-- [ ] Parse and validate the returned JSON:
+- [x] Build the scoring prompt (structured system prompt → JSON response)
+- [x] Call Claude API server-side using `@anthropic-ai/sdk`
+- [x] Parse and validate the returned JSON:
   ```
   {
     overall_score,
@@ -58,14 +58,14 @@ This file tracks the full development of the project from zero to deployed. Chec
     one_line_verdict: string
   }
   ```
-- [ ] Return the structured result from the API route
+- [x] Return the structured result from the API route
 
 ### 1.4 Supabase Setup
-- [ ] Create Supabase project
-- [ ] Create a private storage bucket for CV files
-- [ ] Create a `results` table in Postgres to persist scores + feedback
-- [ ] Upload CV file to Supabase Storage from the API route
-- [ ] Save result JSON to the `results` table, return a result `id`
+- [x] Create Supabase project
+- [x] Create a private storage bucket for CV files (`cvs`)
+- [x] Create a `results` table in Postgres to persist scores + feedback
+- [x] Upload CV file to Supabase Storage from the API route
+- [x] Save result JSON to the `results` table, return a result `id`
 
 ---
 
