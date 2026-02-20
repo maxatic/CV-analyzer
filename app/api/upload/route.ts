@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
     let text: string
     try {
       text = await extractText(buffer, file.type)
-    } catch {
+    } catch (err) {
+      console.error('[extract-text error]', err)
       return NextResponse.json(
         { error: 'Failed to extract text from the file. It may be corrupted or password-protected.' },
         { status: 422 }
@@ -52,19 +53,23 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Score the CV with Claude
+    // Score the CV and upload file in parallel
     let result
+    let filePath: string
     try {
-      result = await scoreCv(text)
-    } catch {
+      [result, filePath] = await Promise.all([
+        scoreCv(text),
+        uploadCvToStorage(buffer, file.name, file.type),
+      ])
+    } catch (err) {
+      console.error('[score-cv/upload error]', err)
       return NextResponse.json(
         { error: 'Failed to analyse the CV. Please try again.' },
         { status: 502 }
       )
     }
 
-    // Store file and persist result
-    const filePath = await uploadCvToStorage(buffer, file.name, file.type)
+    // Persist result
     const id = await saveResult(result, filePath)
 
     return NextResponse.json({ id, result })

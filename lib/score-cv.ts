@@ -44,7 +44,7 @@ Be honest, specific, and constructive.`
 
 export async function scoreCv(cvText: string): Promise<CvResult> {
   const message = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 1500,
     system: SYSTEM_PROMPT,
     messages: [
@@ -60,6 +60,9 @@ export async function scoreCv(cvText: string): Promise<CvResult> {
     throw new Error('Unexpected response type from Claude')
   }
 
-  const result = JSON.parse(content.text) as CvResult
+  // Strip markdown code fences if present
+  const raw = content.text.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '')
+
+  const result = JSON.parse(raw) as CvResult
   return result
 }
