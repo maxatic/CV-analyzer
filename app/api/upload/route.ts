@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { extractText } from '@/lib/extract-text'
-import { scoreCv } from '@/lib/score-cv'
+import { scoreCv, TimeoutError } from '@/lib/score-cv'
 import { uploadCvToStorage, saveResult } from '@/lib/supabase-server'
 
 const MAX_SIZE = 5 * 1024 * 1024 // 5 MB
@@ -63,6 +63,12 @@ export async function POST(request: NextRequest) {
       ])
     } catch (err) {
       console.error('[score-cv/upload error]', err)
+      if (err instanceof TimeoutError) {
+        return NextResponse.json(
+          { error: 'The analysis took too long. Please try again with a shorter CV.' },
+          { status: 504 }
+        )
+      }
       return NextResponse.json(
         { error: 'Failed to analyse the CV. Please try again.' },
         { status: 502 }

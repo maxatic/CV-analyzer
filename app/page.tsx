@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'CV Scorer – AI-powered CV feedback',
+  description: 'Upload your CV and get an instant AI-powered score with detailed feedback across 7 key dimensions.',
+}
 
 const DIMENSIONS = [
   { label: 'Work Experience', weight: 25 },

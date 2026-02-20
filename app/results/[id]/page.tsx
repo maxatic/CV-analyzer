@@ -1,7 +1,22 @@
+import type { Metadata } from 'next'
 import { getResult } from '@/lib/supabase-server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { CvScores, CvFeedback } from '@/types/cv-result'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const result = await getResult(id)
+  if (!result) return { title: 'Not Found – CV Scorer' }
+  return {
+    title: `Score: ${result.overall_score.toFixed(1)}/10 – CV Scorer`,
+    description: result.one_line_verdict,
+  }
+}
 
 const DIMENSIONS: { key: keyof CvScores; label: string; weight: number }[] = [
   { key: 'experience', label: 'Work Experience', weight: 25 },

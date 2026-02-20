@@ -2,6 +2,7 @@
 
 import { useState, useRef, DragEvent, ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { Upload, FileText, Loader2 } from 'lucide-react'
 
 const ALLOWED_TYPES = [
   'application/pdf',
@@ -98,14 +99,14 @@ export default function UploadPage() {
           />
           {file ? (
             <>
-              <div className="text-5xl">📄</div>
+              <FileText className="h-12 w-12 text-gray-400" />
               <p className="mt-3 font-semibold text-gray-900">{file.name}</p>
               <p className="text-sm text-gray-400">{(file.size / 1024).toFixed(0)} KB</p>
               <p className="mt-2 text-xs text-gray-400">Click to replace</p>
             </>
           ) : (
             <>
-              <div className="text-5xl">⬆️</div>
+              <Upload className="h-12 w-12 text-gray-400" />
               <p className="mt-3 font-semibold text-gray-900">Drag & drop your CV here</p>
               <p className="text-sm text-gray-400">or click to browse</p>
             </>
@@ -121,7 +122,14 @@ export default function UploadPage() {
           disabled={!file || loading}
           className="mt-5 w-full rounded-lg bg-black py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {loading ? 'Analysing your CV…' : 'Score my CV'}
+          {loading ? (
+            <span className="inline-flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Analysing your CV…
+            </span>
+          ) : (
+            'Score my CV'
+          )}
         </button>
 
         {loading && (

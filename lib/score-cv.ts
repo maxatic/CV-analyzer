@@ -42,18 +42,39 @@ Scoring weights for overall_score:
 
 Be honest, specific, and constructive.`
 
+export class TimeoutError extends Error {
+  constructor() {
+    super('Claude API request timed out after 45 seconds')
+    this.name = 'TimeoutError'
+  }
+}
+
 export async function scoreCv(cvText: string): Promise<CvResult> {
-  const message = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1500,
-    system: SYSTEM_PROMPT,
-    messages: [
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 45_000)
+
+  let message
+  try {
+    message = await client.messages.create(
       {
-        role: 'user',
-        content: `Analyze this CV:\n\n${cvText}`,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1500,
+        system: SYSTEM_PROMPT,
+        messages: [
+          {
+            role: 'user',
+            content: `Analyze this CV:\n\n${cvText}`,
+          },
+        ],
       },
-    ],
-  })
+      { signal: controller.signal },
+    )
+  } catch (err) {
+    if (controller.signal.aborted) throw new TimeoutError()
+    throw err
+  } finally {
+    clearTimeout(timeout)
+  }
 
   const content = message.content[0]
   if (content.type !== 'text') {
@@ -63,6 +84,11 @@ export async function scoreCv(cvText: string): Promise<CvResult> {
   // Strip markdown code fences if present
   const raw = content.text.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '')
 
-  const result = JSON.parse(raw) as CvResult
-  return result
+  try {
+    return JSON.parse(raw) as CvResult
+  } catch {
+    throw new Error(
+      `Failed to parse Claude response as JSON. Raw response: ${raw.slice(0, 200)}`
+    )
+  }
 }

@@ -1,7 +1,8 @@
+import { cache } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { CvResult } from '@/types/cv-result'
 
-export async function getResult(id: string): Promise<CvResult | null> {
+export const getResult = cache(async function getResult(id: string): Promise<CvResult | null> {
   const supabase = getSupabaseAdmin()
 
   const { data, error } = await supabase
@@ -13,7 +14,7 @@ export async function getResult(id: string): Promise<CvResult | null> {
   if (error || !data) return null
 
   return data.result as CvResult
-}
+})
 
 function getSupabaseAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
